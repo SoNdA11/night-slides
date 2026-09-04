@@ -6,12 +6,11 @@ function getServerUrl(): string {
     return import.meta.env.VITE_SERVER_URL;
   }
   const host = window.location.hostname;
-  const isTunnel = host.includes('trycloudflare.com') || host.includes('ngrok') || host.includes('loca.lt');
-  if (isTunnel) {
-    return window.location.origin;
+  const isLocal = host === 'localhost' || host === '127.0.0.1';
+  if (isLocal) {
+    return `http://${host}:3001`;
   }
-  const proto = window.location.protocol === 'https:' ? 'https:' : 'http:';
-  return `${proto}//${host}:3001`;
+  return window.location.origin;
 }
 
 // ─── Singleton ─────────────────────────────────────────────
